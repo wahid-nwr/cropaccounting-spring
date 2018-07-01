@@ -1,0 +1,173 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'createTaskExpenditure')}">
+<body>
+<div class="bg-primary b-b wrapper-md">
+	<h1 class="m-n font-thin h3">&{'expenditure.estimate'}</h1>
+</div>
+<div class="wrapper-sm">
+	<div>
+		<div ng-app="myApp">
+			<div>
+				
+				<div>
+					#{form @submitExpenditure(), class:'form-horizontal'}
+					<input type="hidden" name="cropExpenceList.cropTaskMap.id" value="${cropTaskMap.id}"/>
+					<div>
+						<div ng-controller="dropdownCtrl">
+						<div class="panel">
+							<table class="display table" cellspacing="0" width="100%">
+							  <thead class="bg-light">
+								  <tr>
+									<th>&{'activity.name'}</th>
+									<th>&{'task.name'}</th>
+									<th style="text-align:center">&{'task.date'}</th>
+									<th style="text-align:center">&{'task.desc'}</th>
+									<th style="text-align:center">&{'item.price'}</th>
+									<th style="text-align:center">&{'labour.price'}</th>
+									<th>
+										<span class="label bg-danger pull-right m-t-xs">${cropTaskMap?.taskList?.size()}</span>
+									</th>
+								</tr>
+							  </thead>
+							  <tbody>
+								#{list cropTaskMapList, as:'cropTaskMap'}  
+								#{/list}    
+								<tr data-ng-repeat="item in taskList" ng-model="taskDtl" class="text-center" >
+									<td width="20%" style="text-align:left">{{item.activityName}}</td>
+									<input type="hidden" name="taskId" value="{{item.id}}"/>
+									<td width="20%" style="text-align:left">{{item.taskName}}</td>
+									<td width="10%" style="text-align:center">{{item.date}}</td>
+									<td width="20%">
+										<select name="cropExpenceList.expenceItemValue.cropActivityItem" class="form-control">
+										  <option value="">-- &{'choose.type'} --</option>
+										  <option data-ng-repeat="obj in expenceItemList" 
+														data-ng-if="obj.cropActivityTypeId == item.task" value="{{obj.cropActivityItemId}}">{{obj.cropActivityItem}}</option>
+										</select>      
+									  </td>
+									  
+									  <td width="15%">
+										<input type="text" name="cropExpenceList.expenceItemValue.itemExpence" placeholder="0.00" class="form-control">
+									  </td>
+									  
+									  <td width="15%">
+										<input type="text" name="cropExpenceList.expenceItemValue.labourExpence" placeholder="0.00" class="form-control">
+									  </td>
+									  <td>
+									  <ul class="nav pull-left panel_toolbox">
+											<li><a onclick="closeInputField(0);"><i
+													class="fa fa-close"></i></a>
+										</ul></td>
+								</tr>
+								
+							  </tbody>
+							</table>
+						</div>
+						
+					</div>
+
+
+					<div class="form-actions">
+						<button type="submit" class="btn btn-sm btn-primary">&{'crop.save'}</button>
+						<button type="reset" class="btn">&{'Reset'}</button>
+					</div>
+					#{/form}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function closeInputField(i) {
+		if (i > 0) {
+			document.getElementById('add_index' + i).outerHTML = '';
+		}
+	}
+
+	$(document)
+			.ready(
+					function() {
+						var i = 0;
+						$("#add_row")
+								.click(
+										function() {
+											i++;
+											alert(i);
+											var copy = document
+													.getElementById('copy').innerHTML;
+											copy = copy.replace('add_index0',
+													'add_index' + i);
+											copy = copy.replace('taskname[0]',
+													'taskname[' + i + ']');
+											copy = copy.replace('taskdate[0]',
+													'taskdate[' + i + ']');
+											copy = copy.replace(
+													'closeInputField(0)',
+													'closeInputField(' + i
+															+ ')');
+											alert('copy;;'+copy);
+											$('#repeat').append(copy);
+
+										});
+					});
+</script>
+<script type="text/javascript">
+var myApp = angular.module("myApp", []);
+var taskList = [];
+var cropActivityList = [];
+var cropActivityTypeList = [];
+var expenceItemList = [];
+var i = 0;    
+
+%{
+	for(models.CropCalenderTask cropCalenderTask:cropTaskMap.taskList)
+	{
+%}	
+	taskList[i] = {'id':'${cropCalenderTask.id}','name':'${cropCalenderTask.taskName}','date':'${cropCalenderTask.taskDateStr}',
+		'activity':'${cropCalenderTask.cropActivity.id}','activityName':'${cropCalenderTask.cropActivity.name}',
+		'task':'${cropCalenderTask.cropActivityType.id}','taskName':'${cropCalenderTask.cropActivityType.name}','comments':'${cropCalenderTask.comments}'};
+	i++;
+%{	
+	}
+%}
+i = 0;    
+%{
+	for(models.ExpenceItem expenceItem:expenceItemList)
+	{
+%}	
+	expenceItemList[i] = {'id':'${expenceItem.id}','cropActivity':'${expenceItem.cropActivity?.name}'
+		,'cropActivityTypeId':'${expenceItem.cropActivityType?.id}','cropActivityType':'${expenceItem.cropActivityType?.name}',
+		'cropActivityItemId':'${expenceItem.cropActivityItem?.id}','cropActivityItem':'${expenceItem.cropActivityItem?.name}'};
+	i++;
+%{
+	}
+%}
+myApp.factory("CustomerService", ['$filter', 
+      function($filter){
+	    var service = {}; 
+		
+		service.getExpenceItemList = function(crop){
+            var expenceItemList = ($filter('filter')(expenceItemList, {crop_id: crop}));      
+            return expenceItemList;
+        };
+		
+        return service;       
+    }]);
+    
+myApp.controller('dropdownCtrl', ['$scope','CustomerService', 
+   function($scope, CustomerService) {
+		$scope.taskList = taskList;
+		$scope.taskDtl ={
+		//Name:'', 
+			id:'', name: '', date: '',activity:'',activityName :'',task:'',taskName:'',comments:''
+		};
+		$scope.expenceItemList = expenceItemList;
+
+
+		$scope.getVarities = function(index){
+		//$scope.varities = CustomerService.getCropVarity($scope.cropdtl.crop);
+    }    
+}]);  
+</script>
+</body>
+</html>

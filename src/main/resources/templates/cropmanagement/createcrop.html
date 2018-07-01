@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'createcrop')}">
+<body>
+<div class="bg-light lter b-b wrapper-md">
+	<h1 class="m-n font-thin h3">Create Crop</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-heading font-bold">Crop description</div>
+				<div class="panel-body">
+					#{form @submitCrop(), class:'form-horizontal'} 
+					<input type="hidden" name="cropId" value="${crops?crops.get(0)[0]:''}" />
+					<input type="hidden" name="cropType" value="${cropType}" />
+					
+					<div class="control-group">
+						<label for="crop_name" class="">নাম</label>
+						<div class="controls ">
+											<input type="text" required="required" ${crops?"disabled":""} name="crop_name" class="form-control" 
+											id="crop_name" value="${crops?crops.get(0)[2]:''}" place-holder="${crops?crops.get(0)[2]:''}">
+							<span class="help-inline"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="crop_cropCast" class="">জাত</label>
+						<div class="controls ">
+											<input type="text" name="crop.cropCast" class="form-control" id="crop_cropCast">
+							<span class="help-inline"></span>
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<button type="submit" class="btn btn-sm btn-primary">&{'crop.save'}</button>
+						<button type="reset" class="btn">&{'Reset'}</button>
+					</div>
+					#{/form}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

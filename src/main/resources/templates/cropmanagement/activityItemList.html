@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'activityitemlist')}">
+<body>
+<div class="wrapper-sm">
+		<div>
+			<div>
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="panel panel-default">
+							<div class="panel-heading font-bold">&{'activityitem.list'}</div>
+								<div class="panel-body">
+									<table class="table table-striped">
+									  <thead>
+										<tr>
+										  <th>#</th>
+										  <th>&{'activityitem.list'}</th>
+										</tr>
+									  </thead>
+									  <tbody>
+										  %{
+											  int index = 0;
+										 %}
+										  #{list activityItemList, as:'cropTaskMap'}
+											%{
+												index++;
+											%}
+											<tr>
+												<th scope="row">${index}</th>
+												<td>${cropTaskMap.name}</td>
+												
+												<td>	
+													#{deadbolt.externalizedRestriction externalRestrictions:['File Archiving']}																		
+													<a class="btn btn-mini btn-warning" href="@{CropManagement.editActivityItem(cropTaskMap.id)}"><i class="icon-edit"></i> &{'edit'}</a>									
+													#{/deadbolt.externalizedRestriction}
+												</td>
+											</tr>
+										#{/list}                        
+										</tbody>
+									  </table>
+									</div>
+							</div>
+						</div>
+					
+					<div class="col-sm-3 no-padding-left bg-white">
+						<div class="wrapper-sm">
+							#{form @submitActivityItem(), class:'form-horizontal'}
+							#{if cropActivityItem?.id} <input
+								type="hidden" name="cropActivityItem.id" value="${cropActivityItem.id}" />
+							#{/if} 
+							#{input 'cropActivityItem.name', class:'form-control' /} 
+
+							<div class="form-actions">
+								<button type="submit" class="btn btn-sm btn-primary">&{'crop.save'}</button>
+							</div>
+							#{/form}
+							</div>	
+					</div>
+				</div>
+				
+				
+			
+		</div>
+	</div>
+
+</body>
+</html>

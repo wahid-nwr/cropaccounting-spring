@@ -1,0 +1,282 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'croplist')}">
+<body>
+<link href="../public/libs/timeline-scheduler/css/jquery-ui.css" rel="stylesheet" />
+<link href="../public/libs/timeline-scheduler/css/jquery.ui.theme.css" rel="stylesheet" />
+
+<div class="bg-light lter b-b wrapper-md">
+	<h1 class="m-n font-thin h3">&{'crop.add'}</h1>
+
+</div>
+<div class="wrapper-md">
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="panel panel-default">
+				<div class="panel-heading font-bold">&{'crop.add.desc'}</div>
+				<div class="panel-body">
+					#{form @submit(), class:'form-horizontal'} 
+					#{if crop?.id} 
+					<input type="hidden" name="crop.id" value="${crop.id}" />
+					#{/if} 
+					
+					<div ng-app="myApp"  ng-controller="dropdownCtrl">
+					  <h3>&{'crop.task.list'}</h3>
+					  
+						 <div class="form-group">
+						  <label for="country" class="col-sm-2 control-label">&{'crop.type'} </label>
+						  <div class="col-sm-7">             
+							<select ng-model="cropdtl.type"                
+									ng-options="obj.type as obj.type for obj in types"
+									ng-change="getTypeCrops()"
+									class="form-control" 
+									ng-required="true"
+									id="country" name="type">
+							  <option value="">-- &{'choose.option'} --</option>
+							</select>      
+						  </div>
+						</div>
+
+						<div class="form-group">
+						  <label for="state" class="col-sm-2 control-label">&{'crop.name'} </label>
+						  <div class="col-sm-7">       
+							<select ng-model="cropdtl.crop" 
+									ng-options="x.id as x.name for x in crops"
+									ng-change = "getVarities()"
+									class="form-control"
+									ng-required="true"
+									id="state" name="crop">
+							  <option value="">-- &{'choose.option'} --</option>
+							</select>      
+						  </div>
+						</div>
+
+						 <div class="form-group">
+						  <label for="city" class="col-sm-2 control-label">&{'crop.variety'} </label>
+						  <div class="col-sm-7">       
+							<select  ng-model="cropdtl.varity"
+									ng-options="x.crop_id as x.varity for x in varities"
+									class="form-control" 
+									ng-required="true"
+									id="city" name="varity">
+							  <option value="">-- &{'choose.option'} --</option>
+							</select>      							
+						  </div>
+						 </div>
+						<!--<div class="form-group">
+						  <div class="col-lg-offset-2">
+							  <button class="btn btn-success">  Save  </button>
+						  </div>
+						 </div>-->
+						 <!--
+						<div class="form-group">
+						  <div class="col-lg-offset-2">
+							<b>name:</b> {{cropdtl.Name}}
+							<b>Country:</b> {{cropdtl.type}}
+							<b>State:</b> {{cropdtl.crop}}
+							<b>City:</b> {{cropdtl.varity}} 
+						  </div>
+						</div>
+						-->
+					</div>
+										
+					<div class="line line-dashed b-b line-lg pull-in"></div>
+		
+					
+					<div class="form-group">
+					  <label class="col-sm-3 control-label">&{'crop.farmer.gender'}</label>
+					  <div class="col-sm-9">
+						<div class="radio">
+						  <label class="i-checks">
+							<input type="radio" checked="" value="option2" name="a">
+							<i></i>&{'crop.farmer.gender.male'}
+						  </label>
+						</div>
+						<div class="radio">
+						  <label class="i-checks">
+							<input type="radio" checked="" value="option2" name="a">
+							<i></i>&{'crop.farmer.gender.female'}
+						  </label>
+						</div>
+					  </div>
+					</div>
+
+					#{input 'crop.farmer.name', class:'form-control', divclass:'form-group', labelclass:'col-sm-3 control-label', otherdivclass:'col-sm-9'/} 
+					#{input 'crop.farmer.mobileNo', class:'form-control', divclass:'form-group', labelclass:'col-sm-3 control-label', otherdivclass:'col-sm-9'/} 
+					#{input 'crop.farmer.nid',type:'number', class:'form-control', divclass:'form-group', labelclass:'col-sm-3 control-label', otherdivclass:'col-sm-9' /} 
+					#{input 'crop.farmer.village',type:'number', class:'form-control', divclass:'form-group', labelclass:'col-sm-3 control-label', otherdivclass:'col-sm-9'/} 
+					#{input 'crop.farmer.para',type:'number', class:'form-control', divclass:'form-group', labelclass:'col-sm-3 control-label', otherdivclass:'col-sm-9'/} 
+					#{input 'crop.farmer.block',type:'number', class:'form-control', divclass:'form-group', labelclass:'col-sm-3 control-label', otherdivclass:'col-sm-9'/} 
+					#{input 'crop.farmer.landDagNo',type:'number', class:'form-control', divclass:'form-group', labelclass:'col-sm-3 control-label', otherdivclass:'col-sm-9'/} 
+					<div class="form-group">
+					  <label class="col-sm-3 control-label">&{'crop.farmer.landOwner'}</label>
+					  <div class="col-sm-9">
+						<div class="radio">
+						  <label class="i-checks">
+							<input type="radio" checked="" value="option2" name="a">
+							<i></i>&{'crop.farmer.owner.self'}
+						  </label>
+						</div>
+						<div class="radio">
+						  <label class="i-checks">
+							<input type="radio" checked="" value="option2" name="a">
+							<i></i>&{'crop.farmer.owner.lease'}
+						  </label>
+						</div>
+					  </div>
+					</div>
+					<div class="form-group">
+						<label for="crop_farmer_name" class="col-sm-3 control-label">&{'crop.cropUnit'}</label>
+						<div class="controls col-sm-9">
+								<select name="crop.cropUnit" id="country" class="form-control" ng-required="true" required="required">
+									<option value="" class="" selected="selected">-- নির্বাচন করুন --</option>
+									#{list utils.UnitEnum.values(), as:'unit'}
+									<option value="${unit.convertionRate()}" label="${unit.unitsName()}">${unit.unitsName()}</option>
+									#{/list}
+								</select>      
+							<span class="help-inline"></span>
+						</div>
+					</div>
+					
+					#{input 'crop.cropLandQuantity', class:'form-control', divclass:'form-group', labelclass:'col-sm-3 control-label', otherdivclass:'col-sm-9'/}
+					<div class="form-group">
+					  <label class="col-sm-3 control-label">&{'crop.startDate'}</label>
+					  <div class="col-sm-9">
+						  <input type="text" value="" id="datepicker" name="crop.startDate" class="form-control">
+						  
+					  </div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-sm btn-primary">&{'crop.list.save'}</button>
+					</div>
+					#{/form}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../public/libs/timeline-scheduler/js/jquery-ui-1.10.2.min.js"></script>
+<script type="text/javascript">
+var a={1:"১",2:"২",3:"৩",4:"৪",5:"৫",6:"৬",7:"৭",8:"৮",9:"৯",0:"০"};
+var currentLangCode = '${play.i18n.Lang.get()}';
+  $( function() {
+    //$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    $( "#datepicker" ).datepicker({"Name":"bn-BD","closeText":"Close","prevText":"Prev","nextText":"Next",
+		"currentText":"Today","monthNames":["জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর",""],
+		"monthNamesShort":["জানু.","ফেব্রু.","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগ.","সেপ্টে.","অক্টো.","নভে.","ডিসে.",""],
+		"dayNames":["রবিবার","সোমবার","মঙ্গলবার","বুধবার","বৃহস্পতিবার","শুক্রবার","শনিবার"],
+		"dayNamesShort":["রবি.","সোম.","মঙ্গল.","বুধ.","বৃহস্পতি.","শুক্র.","শনি."],
+		"dayNamesMin":["র","স","ম","ব","ব","শ","শ"],
+		"dateFormat":"dd-mm-yy","firstDay":1,"isRTL":false,
+		beforeShow: function () {
+			
+		},
+		onChangeMonthYear: function(year, month, inst) { 
+		   /*some function to do on month or year change*/ 		   
+		},
+		afterShow: function () {
+			alert('fff');
+		}		
+		});
+  } );	
+ $('.selector').datepicker({
+   beforeShow: function(date) { 
+       setTimeout(function() {
+            if(currentLangCode=='bn')
+			{
+				$('.ui-state-default').each(function() {
+				var day = $(this).html();
+				//alert('text::'+day);
+				//$(this).text(text.replace('1', '১')); 
+				if(day != undefined && parseInt(day)>-1) {
+								day =  day.replace(/\d/g,function(day){return a[day]});
+								console.log("day::"+day);
+								// Check if there's a url defined for the day
+							
+								// Replace the day number with the link
+								$(this).html( day );
+							}
+				//repeat this for each number
+			});
+			}
+       }, 50); /* TD content is already rendered */ 
+   },
+}); 
+var myApp = angular.module("myApp", []);
+
+myApp.factory("CustomerService", ['$filter', 
+      function($filter){
+		var types = [];
+		var crops = [];
+		var varities = [];
+        var service = {}; 
+        var i = 0;    
+		%{
+			for(Object type:types)
+			{
+		%}	
+			types[i] = {'type':'${type}'};
+			i++;
+		%{
+			}
+		%}
+		i = 0;
+		%{
+			for(Object[] crop:crops)
+			{
+		%}	
+			crops[i] = {'name':'${crop[1]}','type':'${""+crop[0]}','id':'${""+crop[2]}'};
+			i++;
+		%{
+			}
+		%}
+		i = 0;
+		%{
+			for(Object[] varity:varities)
+			{
+		%}	
+			varities[i] = {'crop_id':'${varity[0]}','varity':'${varity[1]}'};
+			i++;
+		%{
+			}
+		%}
+		
+        service.getType = function(){    
+            return types;
+        };
+		service.getTypeCrop = function(type){
+            var cropList = ($filter('filter')(crops, {type: type}));
+            return cropList;
+        };
+		service.getCropVarity = function(crop){
+            var varityList = ($filter('filter')(varities, {crop_id: crop}));      
+            return varityList;
+        };
+		
+        return service;       
+    }]);
+    
+myApp.controller('dropdownCtrl', ['$scope','CustomerService', 
+   function($scope, CustomerService) {
+
+    $scope.cropdtl ={
+        //Name:'', 
+        type:'', 
+        crop: '', 
+        varity: ''
+    };
+	
+    $scope.types = CustomerService.getType();
+
+    $scope.getTypeCrops = function(){
+        $scope.crops = CustomerService.getTypeCrop($scope.cropdtl.type);
+        $scope.varities =[];
+    };
+
+    $scope.getVarities = function(){
+        $scope.varities = CustomerService.getCropVarity($scope.cropdtl.crop);
+    }
+    
+}]);  
+
+</script>
+</body>
+</html>

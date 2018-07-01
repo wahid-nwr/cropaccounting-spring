@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html th:fragment="layout (template, menu)" lang="bn">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+	<!--
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Document Archive | </title>
+
+
+    <link href="../style/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../style/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="../style/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    
+	
+
+    <link href="../style/custom.min.css" rel="stylesheet">   
+    -->
+	
+	  <title th:text="#{application.name}"></title>
+	  <meta name="description" content="app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components" />
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	  <link rel="stylesheet" href="../libs/assets/animate.css/animate.css" type="text/css" />
+	  <link rel="stylesheet" href="../libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+	  <link rel="stylesheet" href="../libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
+
+	  <link rel="stylesheet" href="../libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+	  <link rel="stylesheet" href="../style/font.css" type="text/css" />
+	  <link rel="stylesheet" href="../themeforest-8437259-angulr-bootstrap-admin-web-app-with-angularjs/angular/css/app.min.css" type="text/css" />
+	
+	  <link rel="stylesheet" href="../libs/jquery/fullcalendar/dist/fullcalendar.css" type="text/css" />
+  <link rel="stylesheet" href="../libs/jquery/fullcalendar/dist/fullcalendar.theme.css" type="text/css" />
+
+    <!--
+    <script src="../style/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../style/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    -->
+    
+    
+
+	<script src="../libs/jquery/jquery/dist/jquery.js"></script>
+	<script src="../libs/jquery/moment/moment.js"></script>
+	
+	<script src="../libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="../script/js/ui-load.js"></script>
+	<script src="../script/js/ui-jp.config.js"></script>
+	<script src="../script/js/ui-jp.js"></script>
+	<script src="../script/js/ui-nav.js"></script>
+	<script src="../script/js/ui-toggle.js"></script>
+	<script src="../script/js/ui-client.js"></script>
+	
+
+
+<script src="../libs/angular/angular/angular.js"></script>
+<script src="../script/locales/angular-locale_bn.js"></script>	
+
+	<script src="../script/smart-table.js"></script>
+	<script src="../libs/jquery/fullcalendar/dist/fullcalendar.min.js"></script>
+	<script src="../libs/angular/angular-ui-calendar/src/calendar.js"></script>
+	<script src="../script/locales/lang-all.js"></script>	
+	<script src="../script/js/calendar/calendar.js"></script>
+	<script src="../script/locales/tmhDynamicLocale.js"></script>
+	
+
+  </head>
+  
+
+<body class="nav-md ng-scope">
+
+<div class="app app-header-fixed ng-scope">
+<!--
+<div th:replace="header :: copy"></div>
+<div th:replace="sidebar :: copy"></div>
+-->
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
+<th:block layout:fragment="header"></th>
+
+  <div id="content" class="app-content" role="main">
+  	<div class="app-content-body ">
+	    
+
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="
+    app.settings.asideFolded = false; 
+    app.settings.asideDock = false;
+  ">
+
+  <!-- main -->
+  <div class="col">
+
+<div th:replace="${template}"/>
+</div>
+
+
+
+	</div>
+  </div>
+  <!-- /content -->
+<!--
+<div th:replace="footer :: copy"></div>
+-->
+<div th:replace="fragments/footer :: footer"></div>
+</div>    
+</body>  
+</html>

@@ -1,0 +1,433 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'createearnings')}">
+<body>
+<script type="text/css">
+
+a.disabled {
+   pointer-events: none;
+   cursor: default;
+}
+</script>
+<div class="bg-primary lter b-b wrapper-md">
+	<h1 class="m-n font-thin h3">&{'income.day.mapping'}</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					#{form @submitIncomeByDate(), class:'form-horizontal'}
+					<div class="col-sm-9">
+					<div ng-app="myApp"  ng-controller="dropdownCtrl">
+					  <h3>&{'income.add'}</h3>
+					  <div class="row">
+						  <div class="col-sm-4"> 
+							  <div class="control-group">
+						  <label for="country" class="control-label">&{'crop.type'} </label>
+						              
+							<select name="type"
+									ng-model="cropdtl.type"                
+									ng-options="obj.type as obj.type for obj in types"
+									ng-change="getTypeCrops()"
+									class="form-control" 
+									ng-required="true"
+									id="country">
+							  <option value="">-- &{'choose.all'} --</option>
+							</select>      
+						  
+						</div>
+						</div>
+						<div class="col-sm-4"> 
+							  <div class="control-group">
+							  <label for="country" class="control-label">&{'crop.name'} </label>
+							
+								<select name="crop" 
+										ng-model="cropdtl.crop" 
+										ng-options="x.id as x.name for x in crops"
+										ng-change = "getVarities()"
+										class="form-control"
+										ng-required="true"
+										id="state">
+								  <option value="">-- &{'choose.all'} --</option>
+								</select>      		
+							
+							</div>
+						</div>
+						 <div class="col-sm-4"> 
+							  <div class="control-group">
+						  <label for="country" class="control-label">&{'crop.variety'} </label>
+						  
+							<select onchange="varitycng()" name="varity" 
+									ng-model="cropdtl.varity"
+									ng-options="x.crop_id as x.varity for x in varities"
+									class="form-control" 
+									ng-required="true"
+									id="city">
+							  <option value="">-- &{'choose.all'} --</option>
+							</select>						
+						  
+						 </div>
+						 </div>
+						 </div>
+						<!--<div class="form-group">
+						  <div class="col-lg-offset-2">
+							  <button class="btn btn-success">  Save  </button>
+						  </div>
+						 </div>-->
+						<div class="form-group">
+						  <!--
+						  <div class="col-lg-offset-2">							
+							<b>Crop Type:</b> {{cropdtl.type}}
+							<b>Crop:</b> {{cropdtl.crop}}
+							<b>Variety:</b> {{cropdtl.varity}} 
+						  </div>
+						  -->
+						</div>
+					</div>
+					<div class="line line-dashed b-b line-lg pull-in"></div>
+					<div class="clearfix"></div>
+					<div class="form-group">
+						
+						<div class="col-sm-12">
+							<div class="col-sm-3">
+								<span>&{'income.type'}</span>
+							</div>
+							<div class="col-sm-2">
+								<span>&{'income.item'}</span>
+							</div>
+							<div class="col-sm-1">
+								<span>&{'income.day'}</span>
+							</div>
+							<div class="col-sm-2">
+								<span>&{'income.amount'}</span>
+							</div>
+							<div class="col-sm-2">
+								<span>&{'income.value'}</span>
+							</div>
+							<div class="col-sm-1">
+								<span>&nbsp;</span>
+							</div>
+						</div>
+					</div>
+					<div class="line line-dashed b-b line-lg pull-in"></div>
+					<div class="clearfix"></div>
+					
+					<div id="copy" class="form-group">
+						<div class="col-sm-12" id="add_index0">
+							<input type="hidden" name="income" id="income[0]" value="incomeval[0]"/>
+							
+							<div class="col-sm-3">
+								<input type="text" name="items" value=""
+									id="items[0]"
+									class="form-control">
+							</div>
+							<div class="col-sm-2">
+								<input type="number" name="day" value=""
+									id="day[0]"
+									class="form-control">
+							</div>
+							<div class="col-sm-2">
+								<input type="number" name="amount" value=""
+									id="amount[0]"
+									class="form-control">
+							</div>
+							<div class="col-sm-2">
+								<input type="number" name="values" value=""
+									id="values[0]"
+									class="form-control">
+							</div>
+							
+							<div class="col-sm-1">
+							<ul class="nav pull-left panel_toolbox">
+								<li><a onclick="closeInputField(0);"><i
+										class="fa fa-close"></i></a>									
+								</li>
+							</ul>
+							</div>
+							<div class="col-sm-1">
+							<ul class="nav pull-left panel_toolbox">
+								<li>
+									<a onclick="addRowBelow(0);"><i
+										class="fa fa-plus"></i></a>
+								</li>
+							</ul>
+							</div>
+						</div>
+					</div>
+					<div id="repeat"></div>
+					<div class="col-sm-2"></div>
+					<div class="col-sm-9">
+					<!--
+					<div class="form-incomeions">
+						<a id="add_row" class="btn btn-default pull-left ">Add Another Activity</a>
+					</div>
+					-->
+					</div>
+					<div class="line line-dashed b-b line-lg pull-in"></div>
+					
+					<div class="form-actions">
+						<button type="submit" class="btn btn-sm btn-primary">&{'crop.save'}</button>					
+					</div>
+					#{/form}
+					<div class="wrapper-sm">
+					
+					</div>
+					</div>
+					<div class="col-sm-3">
+						<h3>&{'income.main'}</h3>
+						<script type="text/javascript">
+							var incomeList = new Array();
+							var income = new Array();
+						</script>
+						 #{list cropIncomes, as:'cropIncome'}
+						 <script type="text/javascript">
+							 income = new Array();
+							 income.push("incomeId_${cropIncome.id}");
+							 income.push("${cropIncome.name}");
+							 incomeList.push(income);
+						 </script>
+						 <div class="checkbox">
+						  <label class="i-checks">
+							<input type="checkbox" id="incomeId_${cropIncome.id}" value="${cropIncome.id}" onclick="checkedActivity(this);">
+							<i></i>
+							${cropIncome.name}
+						  </label>						  
+						</div>						 
+						 #{/list}						 
+					</div>
+					<a href="@{CropManagement.createIncome()}">
+								<button id="createcrop" class="btn btn-success">  &{'income.main.add'} </button></a> 
+					
+				</div>				
+					
+			</div>
+		</div>
+	</div>		
+	
+</div>
+
+<!-- 
+<label class="col-sm-2 control-label">Datepicker</label>
+<div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+	<div class="input-group w-md">
+		<input type="text" class="form-control" datepicker-popup=""
+			ng-model="dt" is-open="opened"
+			datepicker-options="dateOptions" ng-required="true"
+			close-text="Close" /> <span class="input-group-btn">
+			<button type="button" class="btn btn-default"
+				ng-click="open($event)">
+				<i class="glyphicon glyphicon-calendar"></i>
+			</button>
+		</span>
+	</div>
+</div>
+ -->
+
+<script type="text/javascript">
+	var i = 1;
+	var checkboxselected = 0;
+
+	var incomeItemList = [];
+	var j = 0;
+	%{
+		for(models.ExpenceItem incomeItem:incomeItemList){
+	%}
+		incomeItemList[j] = {id:'${incomeItem.id}',cropIncome:'${incomeItem.cropIncome?.id}',
+			cropIncomeItem:'${incomeItem.cropIncomeItem?.id}',cropIncomeItemName:'${incomeItem.cropIncomeItem?.name}',cropIncomeItem:'${incomeItem.cropIncomeItem?.id}'};
+		j++;
+	%{	
+		}
+	%}
+	function checkedActivity(checkbox)
+	{
+		//alert(checkbox.value);
+		var html = '';
+		var incomeName = '';
+		var incomeType = new Array();
+		checkboxselected = checkbox.value;
+		for(var i =0; i<incomeList.length; i++)
+		{
+			if(incomeList[i][0]=='incomeId_'+checkbox.value)
+			{
+				incomeName = incomeList[i][1];			
+				break;
+			}
+		}
+		
+		html = '<div class="form-group" id="incomeLabel_'+checkbox.value+'">'+
+				'<div class="col-sm-2">'+
+				incomeName+' </div>'+
+				'<div class="col-sm-10">'+
+				'<div id="incomeCopy_'+checkbox.value+'"></div>'+
+				'</div>'+
+				'</div>';
+		if(checkbox.checked)
+		{
+			$('#repeat').append(html);
+			//copyRow('#incomeLabel_'+checkbox.value,checkbox.value);
+			copyRow('#incomeCopy_'+checkbox.value,checkbox.value);
+			
+			for(var k=0;k<income.length;k++)
+			{
+				//copyRow(checkbox.value,checkbox.value);
+			}
+		}
+		else
+		{
+			$('#incomeLabel_'+checkbox.value).remove();
+		}
+	}
+	function closeInputField(i) {
+		if (i > 0) {
+			document.getElementById('add_index' + i).outerHTML = '';
+		}
+	}
+	function addRowBelow(index)
+	{
+		var income = document.getElementById('income['+index+']').value;
+		//alert('index;;;;;;;;;;'+index+' income;;;;;;;;;'+income);
+		copyRow(income,index);
+	}
+	function copyRow(income,index) {
+		//var income = '';
+		//alert('income::'+income+' index::'+index);
+		//alert('incomeItem::'+incomeItem);
+		
+		var incomeName = '';
+		
+		var copy = document
+				.getElementById('copy').innerHTML;
+		copy = copy.replace('add_index0',
+				'add_index' + i);
+		copy = copy.replace('"items[0]"',
+				'"items[' + i +']" required="required"');
+		copy = copy.replace('"day[0]"',
+				'"day[' + i +']" " required="required"');
+		copy = copy.replace('"values[0]"',
+				'"values[' + i +']" " required="required"');
+		copy = copy.replace(
+				'closeInputField(0)',
+				'closeInputField(' + i + ')');											
+		copy = copy.replace('income[0]','income['+i+']');
+		copy = copy.replace('incomeval[0]',income);
+		
+		copy = copy.replace('<span id="incomeName[0]"></span>','<span id="incomeName['+i+']">'+incomeName+'</span>');
+		copy = copy.replace('addRowBelow(0)','addRowBelow('+i+')');
+		
+		
+		
+		//if(index>3)
+		//{
+		//	$('#add_index'+index).before(copy);
+		//}
+		//else
+		//{
+			$(income).append(copy);
+		//}
+		i++;
+	}
+	
+
+	$(document)
+			.ready(
+					function() {
+						$( "#copy" ).hide();
+						
+						$("#add_row").click(copyRow());
+					});
+</script>
+
+<script type="text/javascript">
+	
+var myApp = angular.module("myApp", []);
+
+myApp.factory("CustomerService", ['$filter', 
+      function($filter){
+		var types = [];
+		var crops = [];
+		var varities = [];
+        var service = {}; 
+        var i = 0;    
+		%{
+			for(Object type:types)
+			{
+		%}	
+			types[i] = {'type':'${type}'};
+			i++;
+		%{
+			}
+		%}
+		i = 0;
+		%{
+			for(Object[] crop:crops)
+			{
+		%}	
+			crops[i] = {'name':'${crop[1]}','type':'${""+crop[0]}','id':'${""+crop[2]}'};
+			i++;
+		%{
+			}
+		%}
+		i = 0;
+		%{
+			for(Object[] varity:varities)
+			{
+		%}	
+			varities[i] = {'crop_id':'${varity[0]}','varity':'${varity[1]}'};
+			i++;
+		%{
+			}
+		%}
+		
+        service.getType = function(){    
+            return types;
+        };
+		service.getTypeCrop = function(type){
+            var cropList = ($filter('filter')(crops, {type: type}));
+            //document.getElementById("createcrop").class = '';
+             $("#createcrop").removeAttr("disabled");
+            return cropList;
+        };
+		service.getCropVarity = function(crop){			
+			$("#createcrop").attr("disabled", "true");
+			$("#createvarity").removeAttr("disabled");
+            var varityList = ($filter('filter')(varities, {crop_id: crop}));      
+            return varityList;
+        };
+		
+        return service;       
+    }]);
+    
+myApp.controller('dropdownCtrl', ['$scope','CustomerService', 
+   function($scope, CustomerService) {
+	
+	$scope.createcrop = {id:''};
+	$scope.createcroptype = {type:''};
+    $scope.cropdtl ={
+        Name:'', 
+        type:'', 
+        crop: '', 
+        varity: ''
+    };
+	
+    $scope.types = CustomerService.getType();
+
+    $scope.getTypeCrops = function(){
+		$scope.createcroptype = {type:$scope.cropdtl.type};
+        $scope.crops = CustomerService.getTypeCrop($scope.cropdtl.type);
+        $scope.varities =[];
+    
+    };
+
+    $scope.getVarities = function(){
+	
+		$scope.createcrop = {id:$scope.cropdtl.crop}		
+	    $scope.varities = CustomerService.getCropVarity($scope.cropdtl.crop);
+    }
+    
+}]);
+function varitycng()
+{
+	$("#createvarity").attr("disabled", "true");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+    <!-- aside -->
+  <aside th:fragment="sidebar" id="aside" class="app-aside hidden-xs bg-black">
+      <div class="aside-wrap">
+        <div class="navi-wrap">
+          <!-- user -->
+          <div class="clearfix hidden-xs text-center hide" id="aside-user">
+            <div class="dropdown wrapper">
+              <a href="app.page.profile">
+                <span class="thumb-lg w-auto-folded avatar m-t-sm">
+                  <img src="img/a0.jpg" class="img-full" alt="...">
+                </span>
+              </a>
+              <a href="#" data-toggle="dropdown" class="dropdown-toggle hidden-folded">
+                <span class="clear">
+                  <span class="block m-t-sm">
+                    <strong class="font-bold text-lt">currentUser_displayName</strong> 
+                    <b class="caret"></b>
+                  </span>
+                  <span class="text-muted text-xs block">currentUser_role_name</span>
+                </span>
+              </a>
+              <!-- dropdown -->
+              <ul class="dropdown-menu animated fadeInRight w hidden-folded">
+                <li class="wrapper b-b m-b-sm bg-info m-t-n-xs">
+                  <span class="arrow top hidden-folded arrow-info"></span>
+                  <div>
+                    <p th:text="#{header.msg1}"></p>
+                  </div>
+                  <div class="progress progress-xs m-b-none dker">
+                    <div class="progress-bar bg-white" data-toggle="tooltip" data-original-title="50%" style="width: 50%"></div>
+                  </div>
+                </li>
+                <li>
+                  <a href th:text="#{settings}"></a>
+                </li>
+                <li>
+                  <a href="#page_profile.html" th:text="#{profile}"></a>
+                </li>
+                <li>
+                  <a href>
+                    <span class="badge bg-danger pull-right">3</span>
+		    <span th:text="#{notifications}"></span>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#page_signin.html" th:text="#{logout}"></a>
+                </li>
+              </ul>
+              <!-- / dropdown -->
+            </div>
+            <div class="line dk hidden-folded"></div>
+          </div>
+          <!-- / user -->
+
+          <!-- nav -->
+          <nav ui-nav class="navi clearfix">
+          	<ul class="nav">
+			<li>
+				<a href class="auto">      
+                  <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                  </span>
+                  <i class="glyphicon glyphicon-list icon text-primary-dker"></i>
+                  <span class="font-bold">DashBoard</span>
+                </a>
+		
+                <ul class="nav nav-sub dk">
+                  <li class="nav-sub-header">
+                    <a href>
+                      <span>DashBoard</span>
+                    </a>
+                  </li>              
+					<li>
+						<a th:href="@{/cropmanagement/createcropcalendar}">
+						<span>Create calendar</span>
+						</a>
+					  </li>	
+					  <li #{if 'CropManagement.createcrop' == request.action} class="active"#{/if}>
+						<a th:href="@{/cropmanagement/createcrop}">
+						<span>&{'create.crop'}</span>
+					    </a>
+					  </li>
+					</ul>
+              </li>
+
+              <li class="line dk"></li>
+	  	</ul>
+          </nav>
+          <!-- nav -->
+        </div>
+      </div>
+  </aside>
+  <!-- / aside -->
+
