@@ -8,6 +8,9 @@ a.disabled {
    cursor: default;
 }
 </script>
+<script type="text/javascript">
+	var activityList = new Array();
+</script>
 <div class="bg-success b-b wrapper-md">
 	<h1 class="m-n font-thin h3" th:text="#{project.search}">&{'activity.name'}</h1>
 </div>
@@ -179,22 +182,40 @@ a.disabled {
 						<script type="text/javascript">
 							var activityList = new Array();
 							var activity = new Array();
+							var expenceItemList = new Array();
+							var j = 0;
 						</script>
-						 #{list cropActivityList, as:'cropActivity'}
-						 <script type="text/javascript">
-							 activity = new Array();
-							 activity.push("actId_${cropActivity.id}");
-							 activity.push("${cropActivity.name}");
-							 activityList.push(activity);
-						 </script>
+						
+							<div th:each="expenceItem : ${expenceItemList}">
+								<script type="text/javascript" th:inline="javascript">
+								/*[+
+									expenceItemList[j] = {id:[[${expenceItem.id}]], 
+										cropActivity:[[${expenceItem.cropActivity?.id}]],
+										cropActivityType: [[${expenceItem.cropActivityType?.id}]],
+										cropActivityTypeName:[[${expenceItem.cropActivityType?.name}]], 
+										cropActivityItem:[[${expenceItem.cropActivityItem?.id}]]};
+									j++;
+								+]*/
+								</script>
+							</div>
 						 <div class="checkbox" th:each="cropActivity : ${cropActivityList}">
+							 <script type="text/javascript" th:inline="javascript">
+							 /*[+
+							 activity = new Array();
+							 var id = [[${cropActivity.id}]];
+							 var name = [[${cropActivity.name}]];
+							 //alert('id::'+id);
+							 activity.push('actId_'+id);
+							 activity.push(name);
+							 activityList.push(activity);
+							 +]*/
+							 </script>
 						  <label class="i-checks">
-							<input type="checkbox" id="actId_${cropActivity.id}" value="${cropActivity.id}" onclick="checkedActivity(this);">
-							<i></i>
-							<span th:text="#{cropActivity.name}"></span>
+							<input type="checkbox" th:id="'actId_' + ${cropActivity.id}" th:value="${cropActivity.id}" onclick="checkedActivity(this);">
+							<i></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span th:text="${cropActivity.name}">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 						  </label>
-						</div>						 
-						 #{/list}
+						</div>						 						
 					</div>
 				</div>
 			</div>
@@ -222,11 +243,15 @@ a.disabled {
     /*<![CDATA[*/
 	var cropList = [[${crops}]];
     var theList = [[${cropActivityList}]];
+    //alert(theList);
     var typeList = [[${types}]];
-    for (i = 0; i < typeList.length; i++) {
+    for (i = 0; i < activityList.length; i++) {
         //doSomething(theList[i]);
-        //alert(i+' '+typeList[i]);
+        //alert(i + ' ' + activityList[i][0] + ' ' + activityList[i][1]);
     }
+    /*
+    
+    */
 	//alert(cropList.length);
    
 	var i = 0;
@@ -246,6 +271,7 @@ a.disabled {
 		//alert('act::'+act+' type::'+actType);
 		copyRow(act,actType,index);
 	}
+	
 	function copyRow(act,activityType,index) {
 		var activity = '';
 		var task = '';
@@ -300,8 +326,9 @@ a.disabled {
 						$(" #add_row" ).click(copyRow());
 					});
 
-	var expenceItemList = [];
-	var j = 0;
+	//var expenceItemList = [];
+	//var j = 0;
+	//expenceItemList = [[${expenceItemList}]];
 	//%{
 	//	for(models.ExpenceItem expenceItem:expenceItemList){
 	//%}
